@@ -1,0 +1,31 @@
+workflows:
+  ios_unsigned:
+    name: ios_unsigned
+    environment:
+      flutter: stable
+      xcode: latest
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+          source: true
+    scripts:
+      - name: Flutter version
+        script: |
+          flutter --version
+      - name: Update CocoaPods specs
+        script: |
+          cd ios
+          pod repo update
+      - name: Get dependencies
+        script: |
+          flutter pub get
+      - name: Build iOS (no codesign)
+        script: |
+          flutter build ipa --no-codesign
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - build/ios/archive/*.xcarchive
+      - ios/Podfile.lock
