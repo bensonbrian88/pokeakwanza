@@ -1,9 +1,10 @@
 platform :ios, '13.0'
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
-# Load Flutter's CocoaPods helper methods
-flutter_root = File.expand_path('..', File.dirname(File.realpath(__FILE__)))
-require File.join(flutter_root, 'packages', 'flutter_tools', 'bin', 'podhelper')
+# Load Flutter's CocoaPods helper methods (resolved from FLUTTER_ROOT in CI)
+flutter_root = ENV['FLUTTER_ROOT']
+raise 'FLUTTER_ROOT not set. Please ensure Flutter is installed and FLUTTER_ROOT is exported.' if flutter_root.nil? || flutter_root.empty?
+require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
 
 project 'Runner', {
   'Debug' => :debug,
