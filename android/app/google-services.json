@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1010349768288",
+    "project_id": "pokeakwanza-app",
+    "storage_bucket": "pokeakwanza-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010349768288:android:f5a280073e3da91421cd05",
+        "android_client_info": {
+          "package_name": "com.pokeakwanza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010349768288-b6crrvcbq05bu71a8nslv2ok9sg3tbc9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pokeakwanza",
+            "certificate_hash": "cec8ba4c6315f02cbdb2df85453c9d7aa2af1b00"
+          }
+        },
+        {
+          "client_id": "1010349768288-cu95fnki7uvr543cqfp72mpffiu1526o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pokeakwanza",
+            "certificate_hash": "adbb56d274e698479dc407019aca33730f02d271"
+          }
+        },
+        {
+          "client_id": "1010349768288-oscv31harpp2ps52d01ov255tsv3197n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPviRNSGh6uNkhiAOyifUpBtgSqdEplaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010349768288-oscv31harpp2ps52d01ov255tsv3197n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

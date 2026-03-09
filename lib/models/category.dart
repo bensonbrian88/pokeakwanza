@@ -1,0 +1,50 @@
+import 'package:stynext/core/config.dart';
+
+class Category {
+  final int id;
+  final String name;
+  final String? image;
+  final String? slug;
+
+  Category({
+    required this.id,
+    required this.name,
+    this.image,
+    this.slug,
+  });
+
+  factory Category.fromJson(Map<String, dynamic> json) {
+    final dynamic rawId = json['id'];
+    final int id =
+        rawId is int ? rawId : int.tryParse(rawId?.toString() ?? '0') ?? 0;
+
+    final String name =
+        (json['name'] ?? json['title'] ?? 'Unknown Category').toString();
+
+    final String? rawImgCandidate = (json['image_url'] ??
+            json['image'] ??
+            json['thumbnail'] ??
+            json['icon_url'] ??
+            json['icon'])
+        ?.toString();
+    final String? fullImg = rawImgCandidate == null || rawImgCandidate.isEmpty
+        ? null
+        : AppConfig.normalizeImageUrl(rawImgCandidate);
+
+    return Category(
+      id: id,
+      name: name,
+      image: fullImg,
+      slug: json['slug']?.toString(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'image': image,
+      'slug': slug,
+    };
+  }
+}

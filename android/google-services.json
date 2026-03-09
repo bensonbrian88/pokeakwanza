@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1010349768288",
+    "project_id": "pokeakwanza-app",
+    "storage_bucket": "pokeakwanza-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010349768288:android:76a1c28ca8c7926521cd05",
+        "android_client_info": {
+          "package_name": "com.stynext"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPviRNSGh6uNkhiAOyifUpBtgSqdEplaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
