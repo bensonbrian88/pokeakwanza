@@ -3,7 +3,6 @@ import 'package:stynext/models/cart_item.dart';
 import 'package:stynext/models/product.dart';
 import 'package:stynext/core/di/service_locator.dart';
 import 'package:stynext/domain/usecases/usecases.dart';
-import 'package:stynext/core/architecture/result.dart';
 
 class CartState {
   final List<CartItem> items;

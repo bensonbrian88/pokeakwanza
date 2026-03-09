@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stynext/providers/cart_provider.dart';
-import 'package:stynext/widgets/home_banner_slider.dart';
 import 'package:stynext/widgets/cart_icon_with_badge.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:stynext/core/theme/app_theme.dart';
