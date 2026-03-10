@@ -16,7 +16,6 @@ class OrderNotifier extends StateNotifier<OrderState> {
   final FetchOrdersUseCase _fetchOrders = getIt<FetchOrdersUseCase>();
   final FetchOrderDetailUseCase _fetchOrderDetail =
       getIt<FetchOrderDetailUseCase>();
-  final CheckoutUseCase _checkout = getIt<CheckoutUseCase>();
   final CreateOrderUseCase _createOrder = getIt<CreateOrderUseCase>();
   OrderNotifier() : super(const OrderState());
 
@@ -54,8 +53,7 @@ class OrderNotifier extends StateNotifier<OrderState> {
 
   Future<Map<String, dynamic>> trackOrder(int orderId) async {
     try {
-      final res = await ApiService.I.getOrderTrack(orderId);
-      return res is Map<String, dynamic> ? res : {'success': false};
+      return await ApiService.I.getOrderTrack(orderId);
     } catch (e) {
       rethrow;
     }
@@ -84,8 +82,9 @@ class OrderNotifier extends StateNotifier<OrderState> {
         if (deliveryTo != null) 'delivery_to': deliveryTo,
       };
       final result = await _createOrder.call(payload);
-      return result.getOrNull() is Map<String, dynamic>
-          ? Map<String, dynamic>.from(result.getOrNull() as Map)
+      final data = result.getOrNull();
+      return data is Map<String, dynamic>
+          ? Map<String, dynamic>.from(data)
           : {'success': false};
     } catch (e) {
       rethrow;
@@ -99,12 +98,11 @@ class OrderNotifier extends StateNotifier<OrderState> {
     required String address,
   }) async {
     try {
-      final res = await ApiService.I.updateOrderLocation(orderId, {
+      return await ApiService.I.updateOrderLocation(orderId, {
         'latitude': latitude,
         'longitude': longitude,
         'address': address,
       });
-      return res is Map<String, dynamic> ? res : {'success': false};
     } catch (e) {
       rethrow;
     }
@@ -112,8 +110,7 @@ class OrderNotifier extends StateNotifier<OrderState> {
 
   Future<Map<String, dynamic>> confirmDelivery(int orderId) async {
     try {
-      final res = await ApiService.I.confirmOrderDelivery(orderId);
-      return res is Map<String, dynamic> ? res : {'success': false};
+      return await ApiService.I.confirmOrderDelivery(orderId);
     } catch (e) {
       rethrow;
     }

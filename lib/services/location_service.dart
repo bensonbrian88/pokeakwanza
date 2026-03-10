@@ -10,10 +10,12 @@ class LocationService {
       }
     }
     if (permission == LocationPermission.deniedForever) {
+      await Geolocator.openAppSettings();
       return null;
     }
     final enabled = await Geolocator.isLocationServiceEnabled();
     if (!enabled) {
+      await Geolocator.openLocationSettings();
       return null;
     }
     return Geolocator.getCurrentPosition(

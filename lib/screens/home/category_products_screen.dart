@@ -22,7 +22,6 @@ class _CategoryProductsScreenState
   String _categoryName = '';
   bool _isLoading = true;
   List<Product> _products = [];
-  int _activeTab = 0;
 
   @override
   void didChangeDependencies() {

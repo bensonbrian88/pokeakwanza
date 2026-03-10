@@ -5,7 +5,6 @@ import 'package:stynext/widgets/cart_icon_with_badge.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:stynext/core/theme/app_theme.dart';
 import 'package:stynext/models/product.dart';
-import 'package:stynext/models/category.dart';
 import 'package:stynext/providers/banner_provider.dart';
 import 'package:stynext/providers/category_provider.dart';
 import 'package:stynext/providers/product_provider.dart';
@@ -24,7 +23,6 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
   List<Product> _allProducts = [];
   List<Product> _products = [];
   List<Product> _newArrivals = [];
-  List<Category> _categories = [];
   int? _activeCategoryId;
   String _searchQuery = '';
   final ScrollController _controller = ScrollController();
@@ -58,10 +56,8 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
     final productProv = ref.read(productProvider.notifier);
     await productProv.fetchProducts();
     await productProv.fetchNewArrivals();
-    final categories = ref.read(categoryProvider).categories;
     final products = ref.read(productProvider).products;
     setState(() {
-      _categories = categories;
       _allProducts = products;
       _products = products;
       _newArrivals = ref.read(productProvider).newArrivals;
@@ -71,19 +67,6 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
   }
 
   // Removed local approximation; rely on backend /products/new-arrivals only.
-
-  Future<void> _filterProductsByCategory(int? categoryId) async {
-    setState(() {
-      _activeCategoryId = categoryId;
-    });
-    final prov = ref.read(productProvider.notifier);
-    await prov.fetchProducts(categoryId: categoryId, search: _searchQuery);
-    final fetched = ref.read(productProvider).products;
-    setState(() {
-      _allProducts = fetched;
-      _products = _applyLocalSearchFilter(_allProducts, _searchQuery);
-    });
-  }
 
   void _searchProducts(String query) {
     _searchQuery = query;

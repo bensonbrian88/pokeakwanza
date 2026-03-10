@@ -16,6 +16,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    ref.listen(authProvider, (prev, next) {
+      final prevToken = prev?.token;
+      final nextToken = next.token;
+      if (prevToken == null && nextToken != null) {
+        setState(() {
+          _errorMessage = null;
+        });
+        _loadUserProfile();
+      }
+      if (prevToken != null && nextToken == null) {
+        setState(() {
+          _errorMessage = null;
+          _isLoadingUser = false;
+        });
+      }
+    });
     _loadUserProfile();
   }
 
@@ -83,7 +99,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ),
       body: _isLoadingUser
           ? _buildLoadingState()
-          : (!isAuthenticated)
+          : (!isAuthenticated || _errorMessage != null)
               ? _buildLoginRequiredState(context)
               : _buildProfileContent(context, user),
     );

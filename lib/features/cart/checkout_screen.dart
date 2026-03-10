@@ -81,7 +81,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   locationAsync.when(
                     data: (pos) => Text(
                       '${pos.latitude.toStringAsFixed(5)}, ${pos.longitude.toStringAsFixed(5)}',
-                      style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                      style: const TextStyle(
+                          fontSize: 12, color: AppColors.textGrey),
                     ),
                     loading: () => const SizedBox(
                       width: 16,
@@ -480,7 +481,6 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
           : null;
       // Optional: time range if provided
       String? timeFrom = time;
-      String? timeTo = time;
       final result = await ref.read(orderProvider.notifier).checkout(
             _payment,
             deliveryDate: date,
@@ -491,6 +491,18 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
           );
 
       if (mounted) {
+        final orderId = result['orderId'] ?? result['order_id'] ?? result['id'];
+        try {
+          final pos = await LocationService().requestCurrentPosition();
+          if (pos != null && orderId is int) {
+            await ref.read(orderProvider.notifier).updateOrderLocation(
+                  orderId: orderId,
+                  latitude: pos.latitude,
+                  longitude: pos.longitude,
+                  address: _selectedAddress?.address ?? 'Delivery location',
+                );
+          }
+        } catch (_) {}
         // Prefetch orders so profile/orders list shows the new order immediately
         await ref.read(orderProvider.notifier).fetchOrders();
         await ref.read(cartProvider.notifier).clearCart();
@@ -520,7 +532,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       if (pos == null) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Location permission denied or disabled')));
+              content: Text(
+                  'Location permission denied or disabled. Please enable in settings')));
         }
         return;
       }

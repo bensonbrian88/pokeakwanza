@@ -21,12 +21,39 @@ class Category {
     final String name =
         (json['name'] ?? json['title'] ?? 'Unknown Category').toString();
 
-    final String? rawImgCandidate = (json['image_url'] ??
+    String? rawImgCandidate;
+    // Common flat keys
+    rawImgCandidate = (json['image_url'] ??
             json['image'] ??
             json['thumbnail'] ??
             json['icon_url'] ??
-            json['icon'])
+            json['icon'] ??
+            json['photo'] ??
+            json['picture'] ??
+            json['cover'] ??
+            json['banner'] ??
+            json['img'] ??
+            json['image_path'])
         ?.toString();
+    // Nested image objects (e.g., { image: { url: '...' } })
+    if ((rawImgCandidate == null || rawImgCandidate.isEmpty) &&
+        json['image'] is Map<String, dynamic>) {
+      final img = Map<String, dynamic>.from(json['image'] as Map);
+      rawImgCandidate = (img['url'] ??
+              img['src'] ??
+              img['path'] ??
+              img['original'] ??
+              img['full'] ??
+              img['thumbnail'] ??
+              img['small'] ??
+              img['medium'])
+          ?.toString();
+    }
+    // Fallback: storage_path / storage_url keys
+    if ((rawImgCandidate == null || rawImgCandidate.isEmpty)) {
+      rawImgCandidate =
+          (json['storage_url'] ?? json['storage_path'])?.toString();
+    }
     final String? fullImg = rawImgCandidate == null || rawImgCandidate.isEmpty
         ? null
         : AppConfig.normalizeImageUrl(rawImgCandidate);

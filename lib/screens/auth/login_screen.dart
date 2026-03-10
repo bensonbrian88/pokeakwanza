@@ -71,20 +71,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 .login(login, pass);
                             if (!mounted) return;
                             final state = ref.read(authProvider);
-                            final next = res is Map ? res['next'] : null;
-                            final userId = res is Map
-                                ? (res['user_id'] ?? res['data']?['user_id'])
-                                : null;
+                            final next = res['next'];
+                            final userId =
+                                res['user_id'] ?? res['data']?['user_id'];
                             if (next == 'otp_verification' && userId != null) {
                               Navigator.pushNamed(context, '/otp',
                                   arguments: {'user_id': userId});
                             } else if (state.isAuthenticated) {
                               Navigator.pushReplacementNamed(context, '/home');
                             } else {
-                              final msg = res is Map
-                                  ? (res['message']?.toString() ??
-                                      'Login failed. Please try again.')
-                                  : 'Login failed. Please try again.';
+                              final msg = res['message']?.toString() ??
+                                  'Login failed. Please try again.';
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text(msg)),
                               );
